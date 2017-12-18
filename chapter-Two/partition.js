@@ -104,52 +104,101 @@ LinkedList.prototype.search = function (target, curr) {
 }
 
 const newList = new LinkedList();
-newList.addToHead(3)
-newList.addToHead(5)
-newList.addToHead(1)
+newList.addToHead(2)
 newList.addToHead(10)
-newList.addToHead(3)
+newList.addToHead(5)
 newList.addToHead(8)
-newList.addToTail(90)
+newList.addToHead(5)
+newList.addToHead(3)
+newList.addToTail(1)
 
 /*
-  interview quesiton 2.2
+  interviewing question 2.4
 */
 
-function kthToLast(newList, kth) {
-  return kthToLastHelper(newList.head, kth)
+/*
+  solution 1 (with addToTail Method and Tail)
+*/
+
+function partition(list, partition){
+  const tailNode = list.tail;
+  const headNode = list.head;
+
+  partitionHelper(list, tailNode, headNode, partition);
+
 }
 
-function kthToLastHelper(headNode, kth) {
-  let pointer1 = headNode;
-  let pointer2 = null;
-  let counter = 0;
-  while (pointer1.next !== null) {
-    counter++
-    pointer1 = pointer1.next
-    if (counter === kth) {
-      pointer2 = headNode;
-    } else if (counter > kth) {
-      pointer2 = pointer2.next;
+function partitionHelper(list, tail, head, partition) {
+
+  if (head === tail) {
+    if (head.value >= partition) {
+      list.addToTail(head.value);
+      head.previous.next = head.next;
+      head.previous.next.previous = head.previous
     }
+    return "done";
   }
-  if (pointer2 === null) {
-    return null
+  if (head.value >= partition) {
+      list.addToTail(head.value);
+      head.previous.next = head.next;
+      head.previous.next.previous = head.previous
+      head = head.previous.next;
+    } else {
+      head = head.next;
   }
-  return pointer2.value;
+  partitionHelper(list, tail, head, partition);
 }
 
+
+//partition(newList, 5);
+
+
+
+
+/*
+  solution 2 (without addToTail and Tail)
+*/
+
+function partition2(list, partition){
+  // create two new linked list
+  const smaller = new LinkedList();
+  const bigger = new LinkedList();
+
+  while (list.head !== null) {
+    if (list.head.value >= partition) {
+      bigger.addToHead(list.head.value);
+    } else {
+      smaller.addToHead(list.head.value);
+    }
+    list.head = list.head.next;
+  }
+
+  let smallerPointer = smaller.head;
+
+  // concat two linkedlist
+  while (smallerPointer !== null) {
+
+    if (smallerPointer.next === null) {
+      smallerPointer.next = bigger.head;
+      break;
+    }
+    smallerPointer = smallerPointer.next;
+  }
+
+  return smaller;
+}
+
+
+const result = partition2(newList, 5);
 
 /*
   testing case
 */
 
-console.log(kthToLast(newList, 4));
+let test = [];
+while (result.head !== null) {
+  test.push(result.head.value);
+  result.head = result.head.next;
+}
 
-
-/*
-  run time
-  time: O(N)
-  space: O(1)
-*/
-
+console.log(test);

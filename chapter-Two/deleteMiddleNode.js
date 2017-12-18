@@ -113,43 +113,61 @@ newList.addToHead(8)
 newList.addToTail(90)
 
 /*
-  interview quesiton 2.2
+  interview question 2.3
 */
 
-function kthToLast(newList, kth) {
-  return kthToLastHelper(newList.head, kth)
+// prepare data for test
+let testNode;
+let headNode = newList.head;
+for (var i = 0; i < 4; i++) {
+  headNode = headNode.next;
+  if (i === 3) {
+    testNode = headNode;
+  }
 }
 
-function kthToLastHelper(headNode, kth) {
-  let pointer1 = headNode;
-  let pointer2 = null;
-  let counter = 0;
-  while (pointer1.next !== null) {
-    counter++
-    pointer1 = pointer1.next
-    if (counter === kth) {
-      pointer2 = headNode;
-    } else if (counter > kth) {
-      pointer2 = pointer2.next;
+console.log(testNode);   // value = 5, next => 3, prev => 1
+
+/*
+  knowing the headnode
+*/
+
+function deleteMiddleNode(removingNode, startNode) {
+    if (startNode === null) { return null; }
+    if (startNode.next === null) { return 'done'}
+    if (startNode.next !== null) {
+      if (startNode.next.value === removingNode.value && startNode.next.next === removingNode.next) {
+        startNode.next = removingNode.next;
+        removingNode.next = null;
+      }
     }
-  }
-  if (pointer2 === null) {
-    return null
-  }
-  return pointer2.value;
+    startNode = startNode.next
+    deleteMiddleNode(removingNode, startNode);
 }
 
+//deleteMiddleNode(testNode, newList.head);
+
+
+/*
+  do not know the headNode
+*/
+
+function deleteMiddleNode2(removingNode) {
+  if (removingNode === null || removingNode.next === null) { return false }
+  removingNode.value = removingNode.next.value;
+  removingNode.next = removingNode.next.next;
+}
+
+deleteMiddleNode2(testNode);
 
 /*
   testing case
 */
 
-console.log(kthToLast(newList, 4));
+let test = [];
+while (newList.head !== null) {
+  test.push(newList.head.value);
+  newList.head = newList.head.next;
+}
 
-
-/*
-  run time
-  time: O(N)
-  space: O(1)
-*/
-
+console.log(test);
