@@ -100,65 +100,34 @@ LinkedList.prototype.search = function (target, curr) {
 }
 
 const listOne = new LinkedList();
-listOne.addToHead(4)
+listOne.addToHead(2)
+listOne.addToHead(6)
+listOne.addToHead(8)
+listOne.addToHead(9)
+listOne.addToHead(5)
+listOne.addToHead(10)
 listOne.addToHead(3)
-listOne.addToHead(3)
-listOne.addToHead(4)
-listOne.addToHead(1)
 
+let testNode = listOne.head;
+for (var i = 0; i < 4; i++) {
+  testNode = testNode.next;
+}
+listOne.tail.next = testNode;
 
-const listTwo = new LinkedList();
-listTwo.addToHead(4)
-listTwo.addToHead(3)
-listTwo.addToHead(5)
-listTwo.addToHead(3)
-listTwo.addToHead(4)
-
-
-/*
-  interview question 2.6
-*/
-
-function palindrome(headNode) {
-  let pointerOne = headNode;
-  let pointerTwo = headNode;
-  let buff = [];
-  let index = 1;
-
-  while (pointerTwo !== null) {
-    if (pointerTwo.next === null) {
-      pointerOne = pointerOne.next;
-      pointerTwo = pointerTwo.next;
-    } else {
-      buff.push(pointerOne.value);
-      pointerOne = pointerOne.next;
-      pointerTwo = pointerTwo.next.next;
-    }
+function loopDetection(listA, pointers = []) {
+  if (listA.head === null) {
+    return false;
   }
 
-  while (pointerOne !== null) {
-    if (pointerOne.value !== buff[buff.length - index]) {
-      return false;
-    }
-    index++
-    pointerOne = pointerOne.next;
+  if (pointers.length === 0) {
+    pointers.push(listA.head);
+  } else if (pointers.indexOf(listA.head) !== -1) {
+    return true;
+  } else {
+    pointers.push(listA.head);
   }
-
-  return true;
-
+  listA.head = listA.head.next;
+  return loopDetection(listA, pointers);
 }
 
-/*
-  testing
-*/
-
-console.log(palindrome(listOne.head));
-console.log(palindrome(listTwo.head));
-
-
-/*
-  efficiency
-  time: O(N)
-  space: O(N / 2)
-*/
-
+console.log(loopDetection(listOne))
