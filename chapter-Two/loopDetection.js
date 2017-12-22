@@ -125,6 +125,7 @@ function loopDetection(listA, pointers = []) {
     return true;
   } else {
     pointers.push(listA.head);
+
   }
   listA.head = listA.head.next;
   return loopDetection(listA, pointers);

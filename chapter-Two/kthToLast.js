@@ -152,4 +152,3 @@ console.log(kthToLast(newList, 4));
   time: O(N)
   space: O(1)
 */
-
