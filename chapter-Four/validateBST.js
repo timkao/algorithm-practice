@@ -68,7 +68,7 @@ console.log(validateBST(Four))
 /*
   Efficiency
   Time: O(N)
-  Space: O(1)
+  Space: O(logN)
 */
 
 
@@ -104,4 +104,16 @@ function validateBST2(tree, max = null, min = null) {
 
 }
 
+
+/*
+  testing case
+*/
+
 console.log(validateBST2(Four))
+
+
+/*
+  Efficiency
+  Time: O(N)
+  Space: O(logN)
+*/

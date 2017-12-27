@@ -27,6 +27,7 @@ function routeBetweenNodes(fromNode, toNode, path = []){
 
   if (fromNode === toNode) {
     return true;
+    // to the end or repeat the prevous nodes => return false
   } else if (fromNode.neighbors.length === 0 || path.includes(fromNode)) {
     return false;
   }
