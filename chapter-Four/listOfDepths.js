@@ -161,3 +161,26 @@ console.log(listOfDepths(One))
   space: O(N)
 */
 
+function listDepth(tree, level = 0, result = []) {
+
+  if (tree === null) {
+    return result;
+  }
+
+  if (result[level] === undefined) {
+    result[level] = new LinkedList();
+    result[level].addToTail(tree.value);
+
+  } else {
+    result[level].addToTail(tree.value);
+  }
+
+  level++;
+
+  listDepth(tree.left, level, result);
+  listDepth(tree.right, level, result);
+  return result;
+
+}
+
+console.log(listDepth(One))

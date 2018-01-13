@@ -47,3 +47,25 @@ console.log(minimalTree([1, 2, 3, 4, 5, 6, 7, 8]))
   time: O(N)
   space: O(N)
 */
+
+function miniTree(arr) {
+  if (arr.length === 0) {
+    return null
+  }
+
+  let midPoint;
+  if (arr.length % 2 === 0) {
+    midPoint = (arr.length / 2) - 1
+  } else {
+    midPoint = arr.length >> 1;
+  }
+
+  const resultTree = new Tree(arr[midPoint]);
+  resultTree.left = miniTree(arr.slice(0, midPoint))
+  resultTree.right = miniTree(arr.slice(midPoint + 1, arr.length))
+
+  return resultTree;
+
+}
+
+console.log(miniTree([1, 2, 3, 4, 5, 6, 7, 8]))

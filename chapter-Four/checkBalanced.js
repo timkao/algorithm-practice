@@ -27,7 +27,7 @@ One.left = Two;
 One.right = Three;
 Two.left = Four;
 Two.right = Five;
-Four.left = Six;
+//Four.left = Six;
 Six.left = Seven;
 Three.left = Eight;
 Three.right = Nine;
@@ -35,7 +35,7 @@ Eight.left = Ten;
 Eight.right = Eleven;
 Nine.left = Twelve;
 Nine.right = Thirteen;
-Thirteen.right = Fourteen;
+//Thirteen.right = Fourteen;
 
 function checkBalanced(tree) {
 
@@ -65,7 +65,7 @@ function checkBalanced(tree) {
   if (Math.abs(currLeft - currRight) > 1) {
     return false;
   } else {
-  // apply the same logic to each subtree
+    // apply the same logic to each subtree
     return checkBalanced(tree.left) && checkBalanced(tree.right);
   }
 
@@ -118,3 +118,35 @@ console.log(checkBalanced(One))
   Time: O(N)
   Space: O(N)
 */
+
+function balanced(tree) {
+
+  if (tree === null) {
+    return true;
+  }
+
+  const dif = Math.abs(checkHeight(tree.left) - checkHeight(tree.right))
+  if (dif > 1) {
+    return false;
+  }
+  return balanced(tree.left) && balanced(tree.right);
+
+}
+
+function checkHeight(tree, height = 0) {
+  if (tree === null) {
+    return height;
+  }
+  if (tree.height !== undefined) {
+    return tree.height;
+  }
+
+  height++
+  const leftHeight = checkHeight(tree.left, height);
+  const rightHeight = checkHeight(tree.right, height);
+  tree.height = Math.max(leftHeight, rightHeight);
+  return tree.height;
+}
+
+
+console.log(balanced(One))

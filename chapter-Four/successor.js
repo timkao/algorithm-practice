@@ -77,3 +77,35 @@ console.log(successor(Seven));    // return 20 node
 console.log(successor(Thirty));   // return null
 console.log(successor(Four));     // return 5 node
 console.log(successor(One));      // return 2 node
+
+function successor2(tree) {
+  if (tree.right !== null) { return leftMost(tree.right)}
+  if (tree.parent.left === tree) { return tree.parent}
+  return checkParent(tree.parent);
+}
+
+function leftMost(tree) {
+  if (tree.left === null) { return tree }
+  else { return leftMost(tree.left)}
+}
+
+function checkParent(tree) {
+  if (tree.parent.left === tree) { return tree.parent}
+  else { return null}
+}
+
+console.log(successor2(Twelve));   // return 8 node
+console.log(successor2(Seven));    // return 20 node
+console.log(successor2(Thirty));   // return null
+console.log(successor2(Four));     // return 5 node
+console.log(successor2(One));      // return 2 node
+
+function getSize(tree, cum = 0) {
+  if (tree === null) {
+    return cum;
+  }
+  cum++
+  return cum + getSize(tree.left) + getSize(tree.right);
+}
+
+console.log(getSize(Eight));

@@ -37,12 +37,6 @@ Fifteen.left = Forty;
 TreeWithRandom.prototype.getRandomNode = function() {
 
   getAllNode(this.choices, this);
-  // if (this.left !== null) {
-  //   this.left.getRandomNode();
-  // }
-  // if (this.right !== null) {
-  //   this.right.getRandomNode();
-  // }
 
   const randomIndex = Math.floor(Math.random() * this.choices.length);
   return this.choices[randomIndex];

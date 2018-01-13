@@ -117,3 +117,21 @@ console.log(validateBST2(Four))
   Time: O(N)
   Space: O(logN)
 */
+
+
+function vBST(tree, max = null, min = null) {
+  if (tree === null) {
+    return true;
+  }
+
+  if (max !== null && tree.value > max) {
+    return false;
+  }
+  if (min !== null && tree.value <= min) {
+    return false;
+  }
+  return vBST(tree.left, tree.value, min) && vBST(tree.right, max, tree.value)
+
+}
+
+console.log(vBST(Four))
