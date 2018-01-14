@@ -44,29 +44,5 @@ function merge(left, right) {
 
 }
 
-
-// i do not know why it is wrong....
-function merge2(arr1, arr2) {
-  let result = [];
-
-  for (let i = 0; i < arr1.length ; i++) {
-    if (arr2[0] !== undefined) {
-      while ( arr1[i] > arr2[0]) {
-        result.push(arr2.shift())
-      }
-      if (arr1[i] < arr2[0]) {
-        result.push(arr1[i])
-      }
-    } else {
-      result.push(arr1[i])
-    }
-  }
-
-  if (arr2.length) {
-    result = result.concat(arr2);
-  }
-  return result;
-}
-
 console.log(merge([2, 10, 33, 67], [9, 88, 99, 100, 112]));
 console.log(mergeSort([2, 100, 33, 67, 4, 9, 88, 99, 112, 10]));
