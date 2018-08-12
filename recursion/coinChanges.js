@@ -25,7 +25,7 @@ function findCombs(total, coinValues, pointer = 0, result = [], comb = []) {
 
   const aggregateComb = comb.concat([coinValues[pointer]]);
   findCombs(total - coinValues[pointer], coinValues, pointer, result, aggregateComb)
-  const revertComb = aggregateComb.slice(0, aggregateComb.length - 1);
+  const revertComb = aggregateComb.slice(0, aggregateComb.length - 1);  //  使用mutable data 要小心，unmutable 比較不會出問題
   findCombs(total, coinValues, pointer + 1, result, revertComb);
 
   return result;
