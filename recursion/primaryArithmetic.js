@@ -1,21 +1,12 @@
 function carryTimes(num1, num2) {
-  const str1 = num1.toString();
-  const str2 = num2.toString();
-  const arr1 = [];
-  const arr2 = [];
-  for (var i = 0; i < str1.length; i++) {
-    arr1.push(Number(str1[i]))
-  }
-  for (var j = 0; j < str2.length; j++) {
-    arr2.push(Number(str2[j]))
-  }
+  const arr1 = ('' + num1).split('').map(Number); // clean way to turn a number to an array of digits.
+  const arr2 = ('' + num2).split('').map(Number);
   if (num1 >= num2) {
     return helper(arr1, arr2)
   } else {
     return helper(arr2, arr1)
   }
 }
-
 
 function helper(longNumArr, shortNumArr, carry = false) {
   if (longNumArr.length === 0 && shortNumArr.length === 0) {
@@ -47,3 +38,6 @@ function helper(longNumArr, shortNumArr, carry = false) {
 
 console.log(helper([9, 9, 9, 9], [1]))
 console.log(carryTimes(9999, 1))
+
+console.log(helper([5, 5, 5, 5], [5, 5, 5]))
+console.log(carryTimes(555, 5555))
