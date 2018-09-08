@@ -1,24 +1,39 @@
-function findTwoPoint(arr, begin = 0, most = [0, 1]) {
+const examples = [
+  [0, 1],
+  [2, 2],
+  [3, 6],
+  [-1, -1],
+  [1, 1],
+  [4, 4],
+]
 
-  if (begin >= arr.length - 2) {
-    return most
+
+function findLines(arr, begin = 0, aggr = {}) {
+  if (arr.length - begin <= 1) {
+    return aggr
   }
 
-  const currPoint = arr[begin]
-  const currSlopes = []
+  const currPoint = arr[begin];
   for (var i = begin + 1; i < arr.length; i++) {
-    currSlopes.push(findSlope(currPoint, arr[i]))
+    const anotherPoint = arr[i]
+    const slope = findSlope(currPoint, anotherPoint);
+    const diff = findDiff(currPoint, slope);
+    const key = `${slope}&${diff}`;
+    if (aggr[key]) {
+      aggr[key] += 1
+    } else {
+      aggr[key] = 1
+    }
   }
-  const currMost = countMost(currSlopes, begin);
-  if (currMost.length > most.length) {
-    return findTwoPoint(arr, begin + 1, currMost)
-  }
-  return findTwoPoint(arr, begin + 1, most)
-
+  return findLines(arr, begin + 1, aggr);
 }
 
-
-function findLine(arr) {
-  const points = findTwoPoint(arr)
-  return buildLine(points[0], points[1])
+function findSlope(pointA, pointB) {
+  return (pointA[1] - pointB[1]) / (pointA[0] - pointB[0]);
 }
+
+function findDiff(point, slope) {
+  return point[1] - slope * point[0];
+}
+
+console.log(findLines(examples));
