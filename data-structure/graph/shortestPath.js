@@ -78,7 +78,20 @@ function shortestPath(fromNode, toNode, visited = []) {
   return 'no path'
 }
 
-console.log(shortestPath(one, six))
-console.log(shortestPath(two, three))
-console.log(shortestPath(eight, four))
-console.log(shortestPath(eight, six))
+// console.log(shortestPath(one, six))
+// console.log(shortestPath(two, three))
+// console.log(shortestPath(eight, four))
+// console.log(shortestPath(eight, six))
+
+module.exports = {
+  one,
+  two,
+  three,
+  four,
+  five,
+  six,
+  seven,
+  eight,
+  Vertex
+}
+
