@@ -22,7 +22,6 @@ function masterMind(ans, guess) {
       seudo++
     }
   }
-
   return [hit, seudo];
 
 }
