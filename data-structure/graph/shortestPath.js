@@ -44,8 +44,9 @@ seven.neighbors.push(three)
 eight.neighbors.push(one)
 eight.neighbors.push(two)
 
-function shortestPath(fromNode, toNode, visited = []) {
+function shortestPath(fromNode, toNode) {
   let count = 0;
+  const visited = [];
   if (fromNode.value === toNode.value) {
     return count
   }
@@ -69,7 +70,7 @@ function shortestPath(fromNode, toNode, visited = []) {
       }
     })
 
-    if (queue.length === 0) {
+    if (queue.length === 0) { // this level is done
       count++
       queue = queue.concat(nextNeighbors);
       nextNeighbors = []
