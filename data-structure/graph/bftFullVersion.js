@@ -1,4 +1,4 @@
-const { one, six } = require('./shortestPath');
+const { one, six } = require('./myShortestPath');
 
 
 function processVertexEarly(vertex) {
@@ -60,7 +60,7 @@ function bftFullVersion(graph) {
 
 bftFullVersion(one)
 
-function findPath(graph, vertex) {
+export function findPath(graph, vertex) {
   if (vertex === graph) {
     return `${graph.value}`
   }
@@ -68,3 +68,7 @@ function findPath(graph, vertex) {
 }
 
 console.log(findPath(one, six))
+
+module.exports = {
+  findPath
+}
