@@ -1,4 +1,4 @@
-const { one, six } = require('./myShortestPath');
+const { one, six } = require('./findShortestPath');
 
 
 function processVertexEarly(vertex) {
@@ -22,7 +22,7 @@ function processVertexLate(vertex) {
 
 }
 
-function bftFullVersion(graph) {
+export function bftTemplate(graph) {
   const queue = []
   const discovered = [] // 若是每個 vertex 都有自己的整數編號，會更快
   const processed = [] // 若是每個 vertex 都有自己的整數編號，會更快
@@ -58,7 +58,7 @@ function bftFullVersion(graph) {
   }
 }
 
-bftFullVersion(one)
+bftTemplate(one)
 
 export function findPath(graph, vertex) {
   if (vertex === graph) {
@@ -70,5 +70,6 @@ export function findPath(graph, vertex) {
 console.log(findPath(one, six))
 
 module.exports = {
-  findPath
+  findPath,
+  bftTemplate
 }

@@ -25,7 +25,7 @@ function findShortestPath(graph, vertex) {
       if (!discovered.includes(currNeighbor)) {
         queue.push(currNeighbor)
         /*
-         key step, need to have "parent-child" relation to establish a route
+          key step, need to have "parent-child" relation to establish a route
         */
         currNeighbor.parent = currVertex; // whoever discovers it the first, named the parent of it
         if (currNeighbor === vertex) {
