@@ -50,16 +50,14 @@ const exitTime = []
 let time = 0
 
 // 越先發現，越晚做完
-
 function dftTemplate(graph) {
-  discovered[graph.value] = true
-  time += 1
-  processVertexEarly(graph)
-  entryTime[graph.value] = time;
-  if (graph.neighbors.length <= 1) {
-    return
-  }
 
+  processVertexEarly(graph)
+  time += 1 // take a record before recursion
+  entryTime[graph.value] = time;
+  discovered[graph.value] = true // marked as discovered
+
+  // process children (neighbors)
   let neighborsIdx = 0;
   while (neighborsIdx < graph.neighbors.length) {
     const currNeighbor = graph.neighbors[neighborsIdx];
@@ -73,10 +71,14 @@ function dftTemplate(graph) {
     }
     neighborsIdx += 1
   }
+
   processVertexLate(graph)
-  time += 1
+  time += 1 // take a record after recursion
   exitTime[graph.value] = time
-  processed[graph.vlaue] = true
+  processed[graph.vlaue] = true // marked as processed
+
 }
 
 dftTemplate(one);
+console.log(entryTime)
+console.log(exitTime)
