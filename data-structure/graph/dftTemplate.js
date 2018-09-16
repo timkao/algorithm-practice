@@ -17,7 +17,7 @@ three.neighbors.push(two)
 three.neighbors.push(four)
 four.neighbors.push(three)
 four.neighbors.push(five)
-five.neighbors.push(one)
+
 five.neighbors.push(two)
 five.neighbors.push(four)
 six.neighbors.push(one)
@@ -47,6 +47,7 @@ const processed = []
 const discovered = []
 const entryTime = []
 const exitTime = []
+const parent = []
 let time = 0
 
 // 越先發現，越晚做完
@@ -64,6 +65,7 @@ function dftTemplate(graph) {
 
     if (!discovered[currNeighbor.value]) {
       currNeighbor.parent = graph
+      parent[currNeighbor.value] = graph.value
       processEdge(graph, currNeighbor)
       dftTemplate(currNeighbor)
     } else if (!processed[currNeighbor.value]) {
@@ -80,5 +82,4 @@ function dftTemplate(graph) {
 }
 
 dftTemplate(one);
-console.log(entryTime)
-console.log(exitTime)
+console.log(parent)
