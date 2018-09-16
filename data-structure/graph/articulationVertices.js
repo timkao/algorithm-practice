@@ -22,11 +22,20 @@ five.neighbors.push(two)
 five.neighbors.push(four)
 six.neighbors.push(one)
 
+const processed = []
+const discovered = []
+const entryTime = []
+const exitTime = []
+const reachableAncestor = []
+const treeOutDegree = []
+let time = 0
+
 /* assume all vertex has unique integer value */
 
 function processVertexEarly(vertex) {
   console.log('-------- start processing --------')
-  console.log(`This is ${vertex.value}`);
+  reachableAncestor[vertex.value] = vertex.value
+  console.log(`The reachable ancesor for ${vertex.value} now is ${reachableAncestor[vertex.value]}`)
   console.log('-------- start processing --------\n')
 }
 
@@ -43,14 +52,8 @@ function processVertexLate(vertex) {
   console.log('----- Post Processed ------\n')
 }
 
-const processed = []
-const discovered = []
-const entryTime = []
-const exitTime = []
-let time = 0
-
 // 越先發現，越晚做完
-function dftTemplate(graph) {
+function articulationVertices(graph) {
 
   processVertexEarly(graph)
   time += 1 // take a record before recursion
@@ -65,7 +68,7 @@ function dftTemplate(graph) {
     if (!discovered[currNeighbor.value]) {
       currNeighbor.parent = graph
       processEdge(graph, currNeighbor)
-      dftTemplate(currNeighbor)
+      articulationVertices(currNeighbor)
     } else if (!processed[currNeighbor.value]) {
       processEdge(graph, currNeighbor)
     }
@@ -73,12 +76,8 @@ function dftTemplate(graph) {
   }
 
   processVertexLate(graph)
-  time += 1 // 目前感覺是可有可無，是否是因為 javaScript 的關係？
+  time += 1 // take a record after recursion
   exitTime[graph.value] = time
   processed[graph.vlaue] = true // marked as processed
 
 }
-
-dftTemplate(one);
-console.log(entryTime)
-console.log(exitTime)
