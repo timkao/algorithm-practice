@@ -106,7 +106,6 @@ function articulationVertices(graph) {
     const currNeighbor = graph.neighbors[neighborsIdx];
 
     if (!discovered[currNeighbor.value]) {
-      currNeighbor.parent = graph
       parent[currNeighbor.value] = graph.value
       processEdge(graph, currNeighbor)
       articulationVertices(currNeighbor)
@@ -117,7 +116,7 @@ function articulationVertices(graph) {
   }
 
   processVertexLate(graph)
-  time += 1 // take a record after recursion
+  time += 1
   exitTime[graph.value] = time
   processed[graph.vlaue] = true // marked as processed
 

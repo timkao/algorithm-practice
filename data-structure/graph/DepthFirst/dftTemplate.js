@@ -1,4 +1,4 @@
-const { Vertex } = require('./findShortestPath');
+const { Vertex } = require('../BreadFirst/findShortestPath')
 
 const one = new Vertex(1)
 const two = new Vertex(2)
@@ -50,7 +50,10 @@ const exitTime = []
 const parent = []
 let time = 0
 
-// 越先發現，越晚做完
+/*
+  1. 越先發現，越晚做完
+  2. directed 跟 undirected 共用
+*/
 function dftTemplate(graph) {
 
   processVertexEarly(graph)
@@ -74,7 +77,7 @@ function dftTemplate(graph) {
   }
 
   processVertexLate(graph)
-  time += 1 // 目前感覺是可有可無，是否是因為 javaScript 的關係？
+  time += 1
   exitTime[graph.value] = time
   processed[graph.vlaue] = true // marked as processed
 
