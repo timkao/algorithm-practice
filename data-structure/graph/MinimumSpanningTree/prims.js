@@ -82,19 +82,19 @@ function prims(graph, start) {
   const parent = []
   const distance = []
 
-  distance[start] = 0
   let currVertex = start
 
   while (inTree[currVertex] !== true) {
     inTree[currVertex] = true
     let currEdgeNode = graph.edges[currVertex]
     while (currEdgeNode !== null) {
-      const edgeNodeDist = distance[currEdgeNode.idx]
-      if (edgeNodeDist === undefined) {
+      const oldWeight = distance[currEdgeNode.idx]
+
+      if (oldWeight === undefined && inTree[currEdgeNode.idx] === undefined) {
         distance[currEdgeNode.idx] = currEdgeNode.weight
         parent[currEdgeNode.idx] = currVertex
       } else {
-        if (edgeNodeDist > currEdgeNode.weight && inTree[currEdgeNode.idx] === undefined ) {
+        if (oldWeight > currEdgeNode.weight && inTree[currEdgeNode.idx] === undefined ) {
           distance[currEdgeNode.idx] = currEdgeNode.weight
           parent[currEdgeNode.idx] = currVertex
         }
@@ -102,21 +102,24 @@ function prims(graph, start) {
       currEdgeNode = currEdgeNode.next
     }
 
-    let smallestDist;
-    for (var i = 0; i < graph.nVertices; i++) {
-      if (distance[i] !== undefined) {
-        if (smallestDist === undefined && inTree[i] !== true) {
-          smallestDist = distance[i]
-          currVertex = i
-        } else if (smallestDist > distance[i] && inTree[i] !== true) {
-          smallestDist = distance[i]
-          currVertex = i
-        }
+    currVertex = goToClosestVertex(primGraph, inTree, distance, currVertex)
+  }
+
+  return parent
+}
+
+function goToClosestVertex(graph, inTree, distance, currIdx) {
+  let smallestDist;
+  let result = currIdx;
+  for (var i = 0; i < graph.nVertices; i++) {
+    if (distance[i] !== undefined && inTree[i] !== true) { // 該點已經相鄰且尚未被納入結果中
+      if (smallestDist === undefined || smallestDist > distance[i]) {
+        smallestDist = distance[i]
+        result = i
       }
     }
   }
-
-  return distance
+  return result;
 }
 
 
