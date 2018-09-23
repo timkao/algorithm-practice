@@ -86,6 +86,7 @@ function prims(graph, start) {
 
   while (inTree[currVertex] !== true) {
     inTree[currVertex] = true
+
     let currEdgeNode = graph.edges[currVertex]
     while (currEdgeNode !== null) {
       const oldWeight = distance[currEdgeNode.idx]
