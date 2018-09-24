@@ -55,6 +55,42 @@ const edgeNode7_6 = new Edgenode(6, 10)
 edgeNode7_1.next = edgeNode7_6
 exGraph.edges[7] = edgeNode7_1
 
+function dijkstra(graph, start) {
+  const distance = []
+  const parent = []
+  const evaluated = []
+  let currV = start
+  distance[currV] = 0 // 若不這麻做則 71 行的計算無法進行
 
+  while (evaluated[currV] !== true) {
+    evaluated[currV] = true
+    let currEdgeNode = graph.edges[currV]
 
+    while ( currEdgeNode !== null) {
+      if (distance[currEdgeNode.idx] === undefined) {
+        distance[currEdgeNode.idx] = distance[currV] + currEdgeNode.weight // 要算上前面的路徑
+        parent[currEdgeNode.idx] = currV
+      } else {
+        if (!evaluated[currEdgeNode.idx] && distance[currEdgeNode.idx] > distance[currV] + currEdgeNode.weight) {
+          distance[currEdgeNode.idx] = distance[currV] + currEdgeNode.weight
+          parent[currEdgeNode.idx] = currV
+        }
+      }
+      currEdgeNode = currEdgeNode.next;
+    }
 
+    let closestDist;
+    for (var i = 1; i <= graph.nVertices; i++) {
+      if (distance[i] !== undefined && !evaluated[i]) {
+        if (closestDist === undefined || distance[i] < closestDist) {
+          closestDist = distance[i]
+          currV = i
+        }
+      }
+    }
+
+  }
+  return distance
+}
+
+console.log(dijkstra(exGraph, 1))
