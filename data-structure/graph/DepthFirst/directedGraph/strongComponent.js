@@ -24,7 +24,6 @@ five.neighbors.push(six)
 six.neighbors.push(seven)
 seven.neighbors.push(five)
 eight.neighbors.push(six)
-
 /* basic records for dfs */
 /* 如果是 list 代表是針對每個點的紀錄 */
 const processed = []

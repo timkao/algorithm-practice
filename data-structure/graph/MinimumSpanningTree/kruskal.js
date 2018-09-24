@@ -93,12 +93,3 @@ function kruskal(graph) {
 }
 
 console.log(kruskal(kruskalGraph))
-
-
-
-
-
-
-
-
-
