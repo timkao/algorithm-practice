@@ -83,7 +83,10 @@ function constructCandidates(board) {
 
 function processSolution(board, result) {
   const temp = [[], [], [], [], [], [], [], [], []]
-  /* cannot do board.slice() since what inside board are Arrays. board.slice()[1][2] will point to the same place as board[1][2] */
+  /*
+    very important!!
+    cannot do board.slice() since what inside board are Arrays. board.slice()[1][2] will point to the same place as board[1][2]
+  */
   for (var row = 0; row < 9; row++) {
     for (var col = 0; col < 9; col++) {
       temp[row][col] = board[row][col]
