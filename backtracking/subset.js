@@ -40,7 +40,6 @@ function dynamicSubSet(completeSet, subSet = '', result = []) {
     return
   }
   const currEle = completeSet[completeSet.length - 1]
-
   const newCompleteSet = completeSet.slice(0, completeSet.length - 1);
   const newSubSet = subSet + currEle
   dynamicSubSet(newCompleteSet, newSubSet, result)
