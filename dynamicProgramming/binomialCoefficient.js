@@ -11,7 +11,7 @@ console.log(bcRecursion(8, 3))
 // binomail coefficient with memoization
 function bcMemoization(piecies, choices) {
   const table = []
-  for (var i = 1; i <= piecies; i++) {
+  for (var i = 0; i <= piecies; i++) {
     table[i] = []
   }
   return calculate(piecies, choices, table)
@@ -29,5 +29,18 @@ console.log(bcMemoization(60, 29))
 
 // binomial efficient with for loop
 function bcForLoop(piecies, choices) {
-
+  const table = []
+  for (var i = 0; i <= piecies; i++) {
+    table[i] = [1]
+    table[i][i] = 1
+  }
+  for (var j = 1; j <= piecies; j++) {
+    for (var k = 1; k <= choices; k++) {
+      if (table[j][k] === undefined) {
+        table[j][k] = table[j - 1][k] + table[j - 1][k - 1]
+      }
+    }
+  }
+  return table[piecies][choices]
 }
+console.log(bcForLoop(60, 29))
