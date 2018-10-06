@@ -10,7 +10,6 @@ const sudokuBoard = [
   [0, 5, 0, 0, 0, 0, 6, 0, 0],
 ]
 
-
 function rowOccupied(board, row, occupied) {
   const currRow = board[row]
   currRow.forEach(ele => {
