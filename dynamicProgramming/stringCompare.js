@@ -21,7 +21,7 @@ function stringCompare(startStr, toStr, startLeng, toLeng) {
 
 function match(c1, c2) {
   if (c1 === c2) return 0
-  return 1
+  return 1 // change to maxint for longest common subsequence
 }
 
 function indel(chr) {
