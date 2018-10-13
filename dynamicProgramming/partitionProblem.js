@@ -41,3 +41,57 @@ function byDynamicProgramming(arr, partitions) {
 
 
 byDynamicProgramming(example, 3)
+
+
+function byRecursion(arr, partition) {
+  if (partition === 1) return sumArr(arr)
+  if (arr.length === 1) return arr[0]
+  let resultValue = Number.MAX_VALUE;
+  for (var i = 1; i < arr.length; i++) {
+    const currValue = Math.max(byRecursion(arr.slice(0, i), partition - 1), sumArr(arr.slice(i)))
+    if (currValue < resultValue) {
+      resultValue = currValue
+    }
+  }
+  return resultValue;
+}
+
+function sumArr(arr) {
+  return arr.reduce((aggr, num) => aggr + num, 0)
+}
+
+console.log(byRecursion(example, 3))
+
+function byRecursionWithCache(arr, partition, costTable = [], parentTable = []) {
+  for (var i = 1; i <= arr.length; i++) {
+    costTable[i] = []
+    parentTable[i] = []
+  }
+  return recursionCacheCreator(arr, partition, costTable, parentTable)
+}
+
+function recursionCacheCreator(arr, partition, costTable, parentTable) {
+  if (partition === 1) {
+    costTable[arr.length][partition] = sumArr(arr)
+    return costTable[arr.length][partition]
+  }
+  if (arr.length === 1) {
+    costTable[arr.length][partition] = arr[0]
+    return costTable[arr.length][partition]
+  }
+  let resultValue = Number.MAX_VALUE;
+  for (var i = 1; i < arr.length; i++) {
+    if (costTable[i][partition - 1] === undefined) {
+      costTable[i][partition - 1] = recursionCacheCreator(arr.slice(0, i), partition - 1, costTable, parentTable)
+    }
+    const currValue = Math.max(costTable[i][partition - 1], sumArr(arr.slice(i)))
+    if (currValue < resultValue) {
+      resultValue = currValue
+      costTable[arr.length][partition] = resultValue;
+      parentTable[arr.length][partition] = i
+    }
+  }
+  return costTable[arr.length][partition];
+}
+
+console.log(byRecursionWithCache(example, 3))
