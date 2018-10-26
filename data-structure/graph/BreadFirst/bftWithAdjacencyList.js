@@ -1,15 +1,15 @@
 function Graph() {
-  const edges = []
-  const degrees = []
-  let nVertices = 0
-  let nEdges = 0
-  const directed = false
+  this.edges = []
+  this.degrees = []
+  this.nVertices = 0
+  this.nEdges = 0
+  this.directed = false
 }
 
-function Edgenode(idx, wei = 0) {
-  const neighborIdx = idx
-  let weight = wei
-  let next = null
+function Edgenode(idx, weight = 0) {
+  this.idx = idx
+  this.weight = weight
+  this.next = null
 }
 
 const exampleGraph = new Graph()
@@ -50,4 +50,45 @@ exampleGraph.edges[5] = five_1
 const six_1 = new Edgenode(1)
 exampleGraph.edges[6] = six_1
 
+/* implementation */
+const discovered = []
+const processed = []
+const parent = []
+function bfs(graph, start = 1) {
+  const queue = []
+  queue.push(start)
+  discovered[start] = true
+  while (queue.length !== 0) {
+    const currVertex = queue.shift()
+    processVertexEarly(currVertex)
+    processed[currVertex] = true // I put it after processVertetLate last time
+    let currNeighbor = graph.edges[currVertex]
+    while (currNeighbor !== null) {
+      const neighborPointer = currNeighbor.idx
+      if (processed[neighborPointer] !== true || graph.directed) { // I missed this logic last time
+        processEdge(currVertex, neighborPointer)
+      }
+      if (discovered[neighborPointer] !== true) {
+        queue.push(neighborPointer)
+        discovered[neighborPointer] = true
+        parent[neighborPointer] = currVertex
+      }
+      currNeighbor = currNeighbor.next
+    }
+    processVertexLate(currVertex)
+  }
+}
 
+function processVertexEarly(vertex) {
+  console.log(`start processing vertex ${vertex}`)
+}
+
+function processEdge(fromV, toV) {
+  console.log(`from ${fromV} to ${toV}`)
+}
+
+function processVertexLate(vertex) {
+  console.log(`finished processing ${vertex}`)
+}
+
+bfs(exampleGraph)
