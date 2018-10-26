@@ -54,11 +54,17 @@ exampleGraph.edges[6] = six_1
 const discovered = []
 const processed = []
 const parent = []
+let time = 0 // I missed it last time (why does bfs not have it?)
+const entryTime = [] // I missed it last time (why does bfs not have it?)
+const exitTime = [] // I missed it last time (why does bfs not have it?)
 
 function dfs(graph, start = 1) {
   discovered[start] = true
-  let currChild = graph.edges[start]
+  time = time + 1 // I missed it last time (why does bfs not have it?)
+  entryTime[start] = time // I missed it last time (why does bfs not have it?)
+  processVertexEarly(start) // I missed this line last time
 
+  let currChild = graph.edges[start]
   while (currChild !== null) {
     const childPointer = currChild.idx
 
@@ -66,11 +72,15 @@ function dfs(graph, start = 1) {
       parent[childPointer] = start
       processeEdge(start, childPointer)
       dfs(graph, childPointer)
+    } else if (processed[childPointer] !== true || graph.directed) {
+      processeEdge(start, childPointer)
     }
 
     currChild = currChild.next
   }
-  processVertex(start)
+  processVertexLate(start)
+  time = time + 1
+  exitTime[start] = time
   processed[start] = true
 }
 
@@ -78,11 +88,17 @@ function processeEdge(fromV, toV) {
   console.log(`from ${fromV} to ${toV}`)
 }
 
-function processVertex(vertext) {
-  console.log(`processing ${vertext}`)
+function processVertexEarly(vertext) {
+  console.log(`processing ${vertext} before its children`)
+}
+
+function processVertexLate(vertext) {
+  console.log(`processing ${vertext} after its children`)
 }
 
 dfs(exampleGraph)
 console.log(processed)
 console.log(parent)
 console.log(discovered)
+console.log(entryTime)
+console.log(exitTime)
