@@ -72,7 +72,7 @@ function dfs(graph, start = 1) {
       parent[childPointer] = start
       processeEdge(start, childPointer)
       dfs(graph, childPointer)
-    } else if (processed[childPointer] !== true || graph.directed) {
+    } else if ((processed[childPointer] !== true && discovered[childPointer] !== true) || (graph.directed)) {
       processeEdge(start, childPointer)
     }
 
