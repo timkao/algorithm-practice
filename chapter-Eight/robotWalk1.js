@@ -30,7 +30,7 @@ function getPath(grid, row, column, path, failedPath) {
   }
 
   let isOrigin = false;
-  if (row === 0 && column === 0) { isOrigin = true};
+  if (row === 0 && column === 0) { isOrigin = true}
 
   if (isOrigin || getPath(grid, row, column - 1, path, failedPath) || getPath(grid, row - 1, column, path, failedPath)) {
     path.push([row, column])
