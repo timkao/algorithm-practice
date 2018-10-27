@@ -47,3 +47,41 @@ function walksFromBeginning(grid, start = [0, 0], path = [[0, 0]], failedCells =
 
 console.log(walksFromBeginning(exampleGrid))
 console.log(walksFromBeginning(exampleGrid2))
+
+function walksFromEnd(grid) {
+  if (grid === null || grid.length === null) return null
+  const path = []
+  const failedPoints = []
+  if (getPath(grid, grid.length - 1, grid[0].length - 1, path, failedPoints)) {
+    return path
+  }
+  return null
+}
+
+function getPath(grid, row, col, path, failedPoints) {
+  const currPoint = [row, col]
+  if (row === 0 && col === 0) {
+    path.push(currPoint)
+    return true
+  }
+  if (col < 0 || row < 0 || !grid[row][col]) return false
+  failedPoints.forEach(failedPoint => {
+    if (failedPoint[0] === row && failedPoint[1] === col) return false
+  })
+
+  if (getPath(grid, row - 1, col, path, failedPoints)) {
+    path.push(currPoint)
+    return true
+  }
+
+  if (getPath(grid, row, col - 1, path, failedPoints)) {
+    path.push(currPoint)
+    return true
+  }
+
+  failedPoints.push(currPoint)
+  return false
+}
+
+console.log(walksFromEnd(exampleGrid))
+console.log(walksFromEnd(exampleGrid2))
