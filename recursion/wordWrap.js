@@ -1,21 +1,23 @@
-function wordWrap (sentenceArr, lineWidth, result = '', sentencePointer = 0, count = 0) {
+function wordWrap (sentenceArr, lineWidth, result = [], sentencePointer = 0, temp = '') {
   if (sentencePointer === sentenceArr.length) {
+    if (temp.length !== 0) {
+      result.push(temp)
+    }
     return result;
   }
   const currSentence = sentenceArr[sentencePointer]
   for (let i = 0; i < currSentence.length; i++) {
-    result += currSentence[i]
-    count++
-    if (count === lineWidth) {
-      result += '\n'
-      count = 0
+    temp += currSentence[i]
+    if (temp.length === lineWidth) {
+      result.push(temp)
+      temp = ''
     }
   }
-  return wordWrap(sentenceArr, lineWidth, result, sentencePointer + 1, count)
+  return wordWrap(sentenceArr, lineWidth, result, sentencePointer + 1, temp)
 }
 
-console.log(wordWrap(['012345678X', '01@345X', '0123X', '01234567890abcdefgh'], 6))
-console.log(wordWrap(['012', '01', '0123X', '01234567890abcdefgh'], 6))
+console.log(wordWrap(['012345678X', '01@345X', '0123X', '01234567890abcdefgh'], 5))
+console.log(wordWrap(['012', '01', '0123X', '01234567890abcdefgh'], 5))
 
 function wordWrapWithLoop(arr, width) {
   let result = [];
