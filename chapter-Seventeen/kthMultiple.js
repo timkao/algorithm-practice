@@ -1,21 +1,15 @@
-function kthMultiple(target, temp = [], arr = [1]) {
+function kthMultiple(target, temp = {}, arr = [1]) {
   if (arr.length === target) return arr[arr.length - 1]
   const latestNum = arr[arr.length - 1]
-  if (!temp.includes(latestNum * 3)) {
-    temp.push(latestNum * 3)
-  }
-  if (!temp.includes(latestNum * 5)) {
-    temp.push(latestNum * 5)
-  }
-  if (!temp.includes(latestNum * 7)) {
-    temp.push(latestNum * 7)
-  }
-  const nextNum = Math.min(...temp)
+  temp[latestNum * 3] = true
+  temp[latestNum * 5] = true
+  temp[latestNum * 7] = true
+  const nextNum = Math.min(...Object.keys(temp).map(num => Number(num)))
   arr.push(nextNum)
-  const removeIdx = temp.findIndex(num => num === nextNum)
-  temp.splice(removeIdx, 1)
+  while (temp[nextNum] === true) {
+    delete temp[nextNum]
+  }
   return kthMultiple(target, temp, arr)
 }
-
 
 console.log(kthMultiple(9))
