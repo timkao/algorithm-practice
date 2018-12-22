@@ -52,7 +52,7 @@ function findThreshold(nums, rank) {
 }
 
 function findRank(nums, left, right, rank) {
-  const pivot = nums[left + Math.floor((right - left) / 2)]
+  const pivot = nums[left + Math.floor(Math.random() * (right - left))]
   const leftEnd = partition(nums, left, right, pivot)
   const leftSize = leftEnd - left + 1
   if (rank === leftSize - 1) {
