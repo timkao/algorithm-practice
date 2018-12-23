@@ -64,6 +64,7 @@ function findRank(nums, left, right, rank) {
   }
 }
 
+// key!!!!
 function partition(nums, left, right, pivot) {
   while (left <= right) {
     if (nums[left] > pivot) {
@@ -97,3 +98,4 @@ function findMax(arr, left, right) {
 }
 
 console.log(selectionRankUnique(ex, 7))
+//console.log(partition(ex, 0, ex.length - 1, 23))
