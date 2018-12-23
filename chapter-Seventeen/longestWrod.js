@@ -1,3 +1,5 @@
+var assert = require('assert')
+
 const ex = ['abckiii', 'b', 'c', 'gdf', 'ebce', 'e', 'ce', 'fnhey']
 
 function longestWord(words) {
@@ -31,4 +33,42 @@ function isPartial(word, subWord) {
   return true
 }
 
-console.log(longestWord(ex))
+assert.equal(longestWord(ex), 'ebce')
+
+// in the end my method should perform more or less the same as what the book has
+
+function longestWordBook(words) {
+  const wordsDict = createTable(words)
+  words.sort((a, b) => b.length - a.length)
+  for (var i = 0; i < words.length; i++) {
+    const currWord = words[i]
+    if (canBuildWord(currWord, true, wordsDict)) {
+      return currWord
+    }
+  }
+}
+
+function createTable(arr) {
+  const result = {}
+  arr.forEach(word => {
+    if (result[word] === undefined) {
+      result[word] = true
+    }
+  })
+  return result
+}
+
+function canBuildWord(word, isOrigin, dict) {
+  if (dict[word] === true && !isOrigin) return dict[word]
+  for (var i = 0; i < word.length; i++) {
+    const left = word.slice(0, i)
+    const right = word.slice(i)
+    if (dict[left] === true && canBuildWord(right, false, dict)) return true
+  }
+  dict[word] = false
+  return dict[word]
+}
+
+assert.equal(longestWordBook(ex), 'ebce')
+
+
