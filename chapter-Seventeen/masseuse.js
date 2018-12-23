@@ -31,3 +31,21 @@ assert.equal(massuseOpt(ex2), 180)
 assert.equal(massuseOpt(ex3), 300)
 assert.equal(massuseOpt(ex4), 330)
 
+function massuseMostOpt(appts) {
+  let oneAWay = 0;
+  let twoAWay = 0;
+  for (var i = appts.length - 1; i >= 0; i--) {
+    const bestWith = appts[i] + twoAWay
+    const bestWithout = oneAWay
+    const current = Math.max(bestWith, bestWithout)
+    twoAWay = oneAWay
+    oneAWay = current
+  }
+  return oneAWay
+}
+
+assert.equal(massuseMostOpt(ex1), 210)
+assert.equal(massuseMostOpt(ex2), 180)
+assert.equal(massuseMostOpt(ex3), 300)
+assert.equal(massuseMostOpt(ex4), 330)
+
