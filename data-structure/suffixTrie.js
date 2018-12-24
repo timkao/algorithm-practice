@@ -1,6 +1,5 @@
 const assert = require('assert')
 
-
 function SuffixTrie(str) {
   this.root = {}
   const newStr = str + '$'
@@ -79,3 +78,4 @@ assert.equal(ex.subStrRepeatTimes('ss'), 2)
 assert.equal(ex.subStrRepeatTimes('i'), 4)
 assert.equal(ex.longestRepeatSubstr(), 'issi')
 
+module.exports = SuffixTrie
