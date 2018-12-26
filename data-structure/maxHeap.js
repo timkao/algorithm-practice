@@ -1,16 +1,21 @@
+const assert = require('assert')
+
 function MaxHeap() {
   this.heap = []
+  this.size = 0
 }
 
 MaxHeap.prototype.heapAdd = function(value) {
   this.heap.push(value)
   heapBubbleUp(this.heap, this.heap.length - 1)
+  this.size += 1
 }
 
 MaxHeap.prototype.extractHead = function() {
   const result = this.heap[0]
   this.heap[0] = this.heap.pop()
   heapBubbleDown(this.heap)
+  this.size -= 1
   return result
 }
 
@@ -65,7 +70,6 @@ function findChildren(pointer) {
   return [pointer * 2 + 1, pointer * 2 + 2]
 }
 
-
 const exHeap = new MaxHeap()
 
 exHeap.heapAdd(8)
@@ -78,7 +82,10 @@ exHeap.heapAdd(20)
 exHeap.heapAdd(6)
 exHeap.heapAdd(7)
 exHeap.heapAdd(55)
-exHeap.extractHead()
-exHeap.extractHead()
+assert.equal(exHeap.extractHead(), 82)
+assert.equal(exHeap.size, 9)
+assert.equal(exHeap.extractHead(), 55)
+assert.equal(exHeap.size, 8)
 
-console.log(exHeap.heap)
+module.exports = MaxHeap
+

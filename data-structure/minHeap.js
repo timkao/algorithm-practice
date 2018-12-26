@@ -1,4 +1,5 @@
-const currHeap = [3, 9, 10, 15, 11, 12, 30, 16];
+const assert = require('assert')
+const ex = [16, 10, 9, 15, 30, 12, 11, 3];
 
 function bubbleUp(arr, heapLength) {
   if (heapLength - 1 === 0) {
@@ -47,24 +48,35 @@ function bubbleDown(arr, pointer = 0) {
 
 }
 
-function insert(value, heap) {
-  heap.push(value);
-  bubbleUp(heap, heap.length);
+function MinHeap() {
+  this.heap = []
+  this.size = 0
 }
 
-insert(8, currHeap);
-console.log(currHeap);
-insert(2, currHeap);
-console.log(currHeap)
-
-function extractMin(heap) {
-  const result = heap[0];
-  heap[0] = heap.pop();
-  bubbleDown(heap);
-  return result;
+MinHeap.prototype.heapAdd = function(value) {
+  this.heap.push(value)
+  bubbleUp(this.heap, this.heap.length)
+  this.size += 1
 }
 
-extractMin(currHeap);
-console.log(currHeap);
-extractMin(currHeap);
-console.log(currHeap);
+MinHeap.prototype.extractHead = function() {
+  const result = this.heap[0]
+  this.heap[0] = this.heap.pop()
+  bubbleDown(this.heap)
+  this.size -= 1
+  return result
+}
+
+const minHeap = new MinHeap()
+
+ex.forEach(num => {
+  minHeap.heapAdd(num)
+})
+
+assert.equal(minHeap.size, ex.length)
+assert.equal(minHeap.extractHead(), Math.min(...ex))
+assert.equal(minHeap.size, ex.length - 1)
+assert.equal(minHeap.extractHead(), 9)
+assert.equal(minHeap.size, ex.length - 2)
+
+module.exports = MinHeap
