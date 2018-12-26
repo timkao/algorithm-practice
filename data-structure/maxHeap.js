@@ -51,7 +51,7 @@ function heapBubbleDown(arr, pointer = 0) {
     return
   }
   if (left !== undefined && right === undefined && currValue < left) {
-    swap(arr, pointer, leftChild)
+    swap(arr, pointer, leftPointer)
     return
   }
   if (left !== undefined && right !== undefined && currValue > Math.max(left, right)) {
