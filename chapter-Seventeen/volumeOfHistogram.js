@@ -13,7 +13,6 @@ function findVolume(nums, begin, end) {
   const [rightValue, rightIdx] = findHighest(nums, highestIdx + 1, end)
   let leftVolume = 0
   let rightVolume = 0
-  if (leftValue === 0 && rightValue === 0) return 0
   if (leftValue !== 0) {
     leftVolume = computeVolume(nums, leftIdx, highestIdx) + findVolume(nums, begin, leftIdx)
   }
