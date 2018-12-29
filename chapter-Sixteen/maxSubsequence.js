@@ -1,3 +1,5 @@
+const assert = require('assert')
+
 const ex1 = [12, -5, 3, 9, -5]
 const ex2 = [15, 6, -9, -14, 20, -9, 6, -3, 17]
 
@@ -23,5 +25,7 @@ function maxSubSequence(nums) {
   return {pos, maxSum}
 }
 
-console.log(maxSubSequence(ex1))
-console.log(maxSubSequence(ex2))
+assert.equal(maxSubSequence(ex1).maxSum, 19)
+assert.equal(maxSubSequence(ex2).maxSum, 31)
+
+module.exports = maxSubSequence
