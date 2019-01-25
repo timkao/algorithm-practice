@@ -8,3 +8,19 @@ var uniquePaths = function(m, n, row = 0, col = 0, memo = []) {
   memo[row][col] = right + down
   return memo[row][col]
 };
+
+
+var uniquePathsReverse = function(m, n) {
+  return generatePath(m, n, m - 1, n - 1)
+};
+
+function generatePath(m, n, row, col, memo = []) {
+  if (row < 0 || col < 0) return 0
+  if (row === 0 && col === 0) return 1
+  if (memo[row] === undefined) memo[row] = []
+  if (memo[row][col] !== undefined) return memo[row][col]
+  const left = generatePath(m, n, row, col - 1, memo)
+  const up = generatePath(m, n, row - 1, col, memo)
+  memo[row][col] = left + up
+  return memo[row][col]
+}
