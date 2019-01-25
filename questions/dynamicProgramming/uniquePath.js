@@ -24,3 +24,19 @@ function generatePath(m, n, row, col, memo = []) {
   memo[row][col] = left + up
   return memo[row][col]
 }
+
+var uniquePathsDP = function(m, n) {
+  let solArr = []
+  for (var i = 0; i < m; i++) {
+      solArr[i] = 1
+  }
+  let nextArr = [1]
+  for (var row = 1; row < n; row++) {
+      for (var col = 1; col < solArr.length; col++) {
+          nextArr[col] = nextArr[col - 1] + solArr[col]
+      }
+      solArr = nextArr
+      nextArr = [1]
+  }
+  return solArr[solArr.length - 1]
+};
