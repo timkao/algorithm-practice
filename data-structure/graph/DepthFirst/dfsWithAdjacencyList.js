@@ -72,7 +72,6 @@ function dfs(graph, currVertex = 1) {
       processeEdge(currVertex, childVertex)
     }
     if (!discovered[childVertex]) {
-      discovered[childVertex] = true
       parent[childVertex] = currVertex
       dfs(graph, childVertex)
     }

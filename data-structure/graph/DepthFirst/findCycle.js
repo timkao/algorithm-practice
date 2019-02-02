@@ -73,7 +73,6 @@ function findCycle(targetGraph, startVertex = 1) {
         processeEdge(currVertex, childVertex, parent, discovered, processed)
       }
       if (discovered[childVertex] !== true) {
-        discovered[childVertex] = true
         parent[childVertex] = currVertex
         dfs(graph, childVertex)
       }
@@ -90,7 +89,7 @@ function findCycle(targetGraph, startVertex = 1) {
 
 function processeEdge(fromV, toV, parent, discovered, processed) {
   if (parent[fromV] !== toV && discovered[toV] && !processed[toV]) {
-    console.log(`The egde from ${fromV} to ${toV} is a back edge and forms a cycle `)
+    console.log(`The egde from ${fromV} to ${toV} is a back edge and form a cycle `)
   }
 }
 
