@@ -52,48 +52,52 @@ exampleGraph.edges[6] = six_1
 
 /* implementation */
 
-const discovered = []
-const processed = []
-const parent = []
-const entryTime = []
-const exitTime = []
-let time = 0
+function findCycle(targetGraph, startVertex = 1) {
+  const discovered = []
+  const processed = []
+  const parent = [null]
+  const entryTime = []
+  const exitTime = []
+  let time = 0
 
-function dfs(graph, currVertex = 1) {
-  discovered[currVertex] = true
-  time += 1
-  entryTime[currVertex] = time
-  processVertexEarly(currVertex)
+  function dfs(graph, currVertex) {
+    discovered[currVertex] = true
+    time += 1
+    entryTime[currVertex] = time
+    processVertexEarly(currVertex)
 
-  let childNode = graph.edges[currVertex]
-  while (childNode !== null) {
-    const childVertex = childNode.vex
-    if (!processed[childVertex] || !graph.directed) {
-      processeEdge(currVertex, childVertex)
+    let childNode = graph.edges[currVertex]
+    while (childNode !== null) {
+      const childVertex = childNode.vex
+      if (!processed[childVertex] || !graph.directed) {
+        processeEdge(currVertex, childVertex, parent, discovered, processed)
+      }
+      if (discovered[childVertex] !== true) {
+        discovered[childVertex] = true
+        parent[childVertex] = currVertex
+        dfs(graph, childVertex)
+      }
+      childNode = childNode.next
     }
-    if (!discovered[childVertex]) {
-      discovered[childVertex] = true
-      parent[childVertex] = currVertex
-      dfs(graph, childVertex)
-    }
-    childNode = childNode.next
+    processVertexLate(currVertex)
+    processed[currVertex] = true
+    time += 1
+    exitTime[currVertex] = time
   }
-  processVertexLate(currVertex)
-  processed[currVertex] = true
-  time += 1
-  exitTime[currVertex] = time
+  dfs(targetGraph, startVertex)
 }
 
-function processeEdge(fromV, toV) {
-  console.log(`from ${fromV} to ${toV}`)
+
+function processeEdge(fromV, toV, parent, discovered, processed) {
+  if (parent[fromV] !== toV && discovered[toV] && !processed[toV]) {
+    console.log(`The egde from ${fromV} to ${toV} is a back edge and forms a cycle `)
+  }
 }
 
 function processVertexEarly(vertext) {
-  console.log(`processing ${vertext} before its children`)
 }
 
 function processVertexLate(vertext) {
-  console.log(`processing ${vertext} after its children`)
 }
 
-dfs(exampleGraph)
+findCycle(exampleGraph)
