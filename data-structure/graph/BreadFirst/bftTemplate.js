@@ -1,6 +1,5 @@
 const { one, six } = require('./findShortestPath');
 
-
 function processVertexEarly(vertex) {
   console.log('-------- start processing --------')
   console.log(vertex.value);

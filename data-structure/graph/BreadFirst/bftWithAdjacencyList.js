@@ -6,8 +6,8 @@ function Graph() {
   this.directed = false
 }
 
-function Edgenode(idx, weight = 0) {
-  this.idx = idx
+function Edgenode(vex, weight = 0) {
+  this.vex = vex
   this.weight = weight
   this.next = null
 }
@@ -51,29 +51,35 @@ const six_1 = new Edgenode(1)
 exampleGraph.edges[6] = six_1
 
 /* implementation */
-const discovered = []
-const processed = []
-const parent = []
-function bfs(graph, start = 1) {
-  const queue = []
-  queue.push(start)
+
+function bfs(graph, start = 1) { // 1 is the name of the vertex. could be anything
+  const processed = []  // could be array or object. here we use array since the name of vertex is a number
+  const discovered = [] // could be array or object. here we use array since the name of vertex is a number
+  const parent = [] // could be array or object. here we use array since the name of vertex is a number
+
+  parent[start] = null
   discovered[start] = true
-  while (queue.length !== 0) {
+
+  const queue = []
+  queue.push(start) // it is the "vertex" that needs to be processed not "edgeNode"
+
+  while (queue.length > 0) {
     const currVertex = queue.shift()
     processVertexEarly(currVertex)
-    processed[currVertex] = true // I put it after processVertetLate last time
-    let currNeighbor = graph.edges[currVertex]
-    while (currNeighbor !== null) {
-      const neighborPointer = currNeighbor.idx
-      if (processed[neighborPointer] !== true || graph.directed) { // I missed this logic last time
-        processEdge(currVertex, neighborPointer)
+    processed[currVertex] = true // after processVertexEarly
+
+    let childNode = graph.edges[currVertex] // it is a linked list in this case
+    while (childNode !== null) {
+      const childVertex = childNode.vex
+      if (!processed[childVertex] || !graph.directed) { //
+        processEdge(currVertex, childVertex)
       }
-      if (discovered[neighborPointer] !== true) {
-        queue.push(neighborPointer)
-        discovered[neighborPointer] = true
-        parent[neighborPointer] = currVertex
+      if (!discovered[childVertex]) {
+        queue.push(childVertex)
+        parent[childVertex] = currVertex
+        discovered[childVertex] = true
       }
-      currNeighbor = currNeighbor.next
+      childNode = childNode.next
     }
     processVertexLate(currVertex)
   }
