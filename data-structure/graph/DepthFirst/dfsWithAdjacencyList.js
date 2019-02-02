@@ -6,8 +6,8 @@ function Graph() {
   this.directed = false
 }
 
-function Edgenode(idx, weight = 0) {
-  this.idx = idx
+function Edgenode(vex, weight = 0) {
+  this.vex = vex
   this.weight = weight
   this.next = null
 }
@@ -51,37 +51,38 @@ const six_1 = new Edgenode(1)
 exampleGraph.edges[6] = six_1
 
 /* implementation */
+
 const discovered = []
 const processed = []
 const parent = []
-let time = 0 // I missed it last time (why does bfs not have it?)
-const entryTime = [] // I missed it last time (why does bfs not have it?)
-const exitTime = [] // I missed it last time (why does bfs not have it?)
+const entryTime = []
+const exitTime = []
+let time = 0
 
-function dfs(graph, start = 1) {
-  discovered[start] = true
-  time = time + 1 // I missed it last time (why does bfs not have it?)
-  entryTime[start] = time // I missed it last time (why does bfs not have it?)
-  processVertexEarly(start) // I missed this line last time
+function dfs(graph, currVertex = 1) {
+  discovered[currVertex] = true
+  time += 1
+  entryTime[currVertex] = time
+  parent[currVertex] = null
+  processVertexEarly(currVertex)
 
-  let currChild = graph.edges[start]
-  while (currChild !== null) {
-    const childPointer = currChild.idx
-
-    if (discovered[childPointer] !== true) {
-      parent[childPointer] = start
-      processeEdge(start, childPointer)
-      dfs(graph, childPointer)
-    } else if ((processed[childPointer] !== true && discovered[childPointer] !== true) || (graph.directed)) {
-      processeEdge(start, childPointer)
+  let childNode = graph.edges[currVertex]
+  while (childNode !== null) {
+    const childVertex = childNode.vex
+    if (!processed[childVertex] || !graph.directed) {
+      processeEdge(currVertex, childVertex)
     }
-
-    currChild = currChild.next
+    if (!discovered[childVertex]) {
+      discovered[childVertex] = true
+      parent[childVertex] = currVertex
+      dfs(graph, childVertex)
+    }
+    childNode = childNode.next
   }
-  processVertexLate(start)
-  time = time + 1
-  exitTime[start] = time
-  processed[start] = true
+  processVertexLate(currVertex)
+  processed[currVertex] = true
+  time += 1
+  exitTime[currVertex] = time
 }
 
 function processeEdge(fromV, toV) {
@@ -97,8 +98,3 @@ function processVertexLate(vertext) {
 }
 
 dfs(exampleGraph)
-console.log(processed)
-console.log(parent)
-console.log(discovered)
-console.log(entryTime)
-console.log(exitTime)
