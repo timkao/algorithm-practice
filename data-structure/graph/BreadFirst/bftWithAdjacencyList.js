@@ -71,9 +71,12 @@ function bfs(graph, start = 1) { // 1 is the name of the vertex. could be anythi
     let childNode = graph.edges[currVertex] // it is a linked list in this case
     while (childNode !== null) {
       const childVertex = childNode.vex
-      if (!processed[childVertex] || !graph.directed) { //
-        processEdge(currVertex, childVertex)
+
+      // if it is "undirectd", we should have two chances to process the "edge" (not vertex!)
+      if (!processed[childVertex] || !graph.directed) {
+        processEdge(graph, currVertex, childVertex)
       }
+      // if the child is not seen before, we should plan to process it in the future
       if (!discovered[childVertex]) {
         queue.push(childVertex)
         parent[childVertex] = currVertex
@@ -89,7 +92,7 @@ function processVertexEarly(vertex) {
   console.log(`start processing vertex ${vertex}`)
 }
 
-function processEdge(fromV, toV) {
+function processEdge(graph, fromV, toV) {
   console.log(`from ${fromV} to ${toV}`)
 }
 
@@ -97,4 +100,4 @@ function processVertexLate(vertex) {
   console.log(`finished processing ${vertex}`)
 }
 
-bfs(exampleGraph)
+bfs(exampleGraph, 3)
