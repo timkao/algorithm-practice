@@ -59,9 +59,12 @@ function findCycle(targetGraph, startVertex = 1) {
   const entryTime = []
   const exitTime = []
   let time = 0
-  return dfs(targetGraph, startVertex)
+  let hasCycle = false
+  dfs(targetGraph, startVertex)
+  return hasCycle
 
   function dfs(graph, currVertex) {
+    if (hasCycle) return
     discovered[currVertex] = true
     time += 1
     entryTime[currVertex] = time
@@ -71,21 +74,20 @@ function findCycle(targetGraph, startVertex = 1) {
     while (childNode !== null) {
       const childVertex = childNode.vex
       if (!processed[childVertex] || !graph.directed) {
-        if (processeEdge(currVertex, childVertex, parent, discovered, processed)) return true
+        hasCycle = processeEdge(currVertex, childVertex, parent, discovered, processed)
       }
       if (discovered[childVertex] !== true) {
         parent[childVertex] = currVertex
-        if (dfs(graph, childVertex)) return true
+        dfs(graph, childVertex)
       }
+      if (hasCycle) return
       childNode = childNode.next
     }
     processVertexLate(currVertex)
     processed[currVertex] = true
     time += 1
     exitTime[currVertex] = time
-    return false
   }
-
 }
 
 
