@@ -59,7 +59,7 @@ function findCycle(targetGraph, startVertex = 1) {
   const entryTime = []
   const exitTime = []
   let time = 0
-  let hasCycle = false
+  let hasCycle = false  // a flag to allow early finish. useful technique!
   dfs(targetGraph, startVertex)
   return hasCycle
 
