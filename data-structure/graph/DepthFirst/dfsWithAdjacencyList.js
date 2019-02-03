@@ -58,8 +58,10 @@ const parent = []
 const entryTime = []
 const exitTime = []
 let time = 0
+let finished = false
 
 function dfs(graph, currVertex = 1) {
+  if (finished) return
   discovered[currVertex] = true
   time += 1
   entryTime[currVertex] = time
@@ -75,6 +77,7 @@ function dfs(graph, currVertex = 1) {
       parent[childVertex] = currVertex
       dfs(graph, childVertex)
     }
+    if (finished) return
     childNode = childNode.next
   }
   processVertexLate(currVertex)
