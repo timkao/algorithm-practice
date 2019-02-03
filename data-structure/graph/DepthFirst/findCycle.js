@@ -59,6 +59,7 @@ function findCycle(targetGraph, startVertex = 1) {
   const entryTime = []
   const exitTime = []
   let time = 0
+  return dfs(targetGraph, startVertex)
 
   function dfs(graph, currVertex) {
     discovered[currVertex] = true
@@ -70,11 +71,11 @@ function findCycle(targetGraph, startVertex = 1) {
     while (childNode !== null) {
       const childVertex = childNode.vex
       if (!processed[childVertex] || !graph.directed) {
-        processeEdge(currVertex, childVertex, parent, discovered, processed)
+        if (processeEdge(currVertex, childVertex, parent, discovered, processed)) return true
       }
       if (discovered[childVertex] !== true) {
         parent[childVertex] = currVertex
-        dfs(graph, childVertex)
+        if (dfs(graph, childVertex)) return true
       }
       childNode = childNode.next
     }
@@ -82,15 +83,18 @@ function findCycle(targetGraph, startVertex = 1) {
     processed[currVertex] = true
     time += 1
     exitTime[currVertex] = time
+    return false
   }
-  dfs(targetGraph, startVertex)
+
 }
 
 
 function processeEdge(fromV, toV, parent, discovered, processed) {
   if (parent[fromV] !== toV && discovered[toV] && !processed[toV]) {
     console.log(`The egde from ${fromV} to ${toV} is a back edge and form a cycle `)
+    return true
   }
+  return false
 }
 
 function processVertexEarly(vertext) {
@@ -99,4 +103,4 @@ function processVertexEarly(vertext) {
 function processVertexLate(vertext) {
 }
 
-findCycle(exampleGraph)
+console.log(findCycle(exampleGraph))
