@@ -1,4 +1,4 @@
-const { Vertex } = require('../BreadFirst/findShortestPath')
+const { Vertex } = require('../../BreadFirst/findShortestPath')
 
 const one = new Vertex(1)
 const two = new Vertex(2)

@@ -1,107 +1,105 @@
-const { Vertex } = require('../../BreadFirst/findShortestPath')
-
-const grape = new Vertex(1)
-const apple = new Vertex(2)
-const berry = new Vertex(3)
-const dog = new Vertex(7)
-const car = new Vertex(4)
-const elephant = new Vertex(6)
-const fox = new Vertex(5)
-
-grape.neighbors.push(apple)
-grape.neighbors.push(fox)
-apple.neighbors.push(berry)
-apple.neighbors.push(car)
-berry.neighbors.push(car)
-berry.neighbors.push(dog)
-car.neighbors.push(elephant)
-car.neighbors.push(fox)
-fox.neighbors.push(elephant)
-elephant.neighbors.push(dog)
-
-const vertices = [grape, apple, berry, dog, car, elephant, fox]
-
-const processed = []
-const discovered = []
-const entryTime = []
-const exitTime = []
-const parent = []
-const stack = [];
-let time = 0
-
-function processVertexEarly(vertex) {
-  console.log('-------- start processing --------')
-  console.log(`This is ${vertex.value}`);
-  console.log('-------- start processing --------\n')
+function Graph(directed) {
+  this.edges = {}
+  this.degrees = {}
+  this.nVertices = 0
+  this.nEdges = 0
+  this.directed = directed
 }
 
-function processEdge(vertex, neighbor) {
-  console.log('----- Do whatever we want to vertex and the neighbor ------')
-  console.log(`The vertex is ${vertex.value}`)
-  console.log(`The neighbor is ${neighbor.value}`)
-  const edgeType = edgeClassification(vertex.value, neighbor.value)
-  console.log(`current edge is ${edgeType}`);
-  if (edgeType === 'BACK') {
-    console.log('This graph is not DAG')
-  }
-  console.log('----- Do whatever we want to vertex and the neighbor ------\n')
+function EdgeNode(vertex, weight = 0) {
+  this.vex = vertex
+  this.weight = weight
+  this.next = null
 }
 
-function processVertexLate(vertex) {
-  console.log('----- Post Processed ------')
-  console.log(`${vertex.value} is processed`)
-  stack.push(vertex)
-  console.log('----- Post Processed ------\n')
-}
+const exampleGraph = new Graph(true)
 
-function edgeClassification(from, to) {
-  if (parent[from] === to) return 'TREE'
-  if (discovered[to] && !processed[to]) return 'BACK'
-  if (processed[to] && entryTime[to] > entryTime[from]) return 'FORWARD'
-  if (processed[to] && entryTime[to] < entryTime[from]) return 'CROSS'
-}
+const A_B = new EdgeNode('B')
+const A_C = new EdgeNode('C')
+A_B.next = A_C
+exampleGraph.edges.A = A_B
 
-// 越先發現，越晚做完
-function dfs(graph) {
+const B_D = new EdgeNode('D')
+const B_C = new EdgeNode('C')
+B_C.next = B_D
+exampleGraph.edges.B = B_C
 
-  processVertexEarly(graph)
-  time += 1 // take a record before recursion
-  entryTime[graph.value] = time;
-  discovered[graph.value] = true // marked as discovered
+const C_E = new EdgeNode('E')
+const C_F = new EdgeNode('F')
+C_E.next = C_F
+exampleGraph.edges.C = C_E
 
-  // process children (neighbors)
-  let neighborsIdx = 0;
-  while (neighborsIdx < graph.neighbors.length) {
-    const currNeighbor = graph.neighbors[neighborsIdx];
+exampleGraph.edges.D = null
 
-    if (!discovered[currNeighbor.value]) {
-      parent[currNeighbor.value] = graph.value
-      processEdge(graph, currNeighbor)
-      dfs(currNeighbor)
-    } else if (!processed[currNeighbor.value]) {
-      processEdge(graph, currNeighbor)
-    }
-    neighborsIdx += 1
-  }
+const E_D = new EdgeNode('D')
+exampleGraph.edges.E = E_D
 
-  processVertexLate(graph)
-  time += 1
-  exitTime[graph.value] = time
-  processed[graph.vlaue] = true // marked as processed
+const F_E = new EdgeNode('E')
+exampleGraph.edges.F = F_E
 
-}
+const G_A = new EdgeNode('A')
+const G_F = new EdgeNode('F')
+G_A.next = G_F
+exampleGraph.edges.G = G_A
 
-function topologicalSort() {
+function topologicalSort(graph) {
+  const discovered = {}
+  const processed = {}
+  const parent = {}
+  let time = 0
+  const entryTime = {}
+  const exitTime = {}
+  let finished = false
 
-  for (var i = 0; i < vertices.length; i++) {
-    if (discovered[i + 1] === undefined) {
-      dfs(vertices[i])
+  const vertices = Object.keys(graph.edges)
+  const stack = []
+  for (let i = 0; i < vertices.length; i++) {
+    const vertex = vertices[i]
+    if (!discovered[vertex]) {
+      dfs(graph, vertex)
     }
   }
+  return stack.reverse()
 
-  while (stack.length > 0) {
-    console.log(stack.pop())
+  function dfs(targetGraph, currVetex) {
+    if (finished) return
+    discovered[currVetex] = true
+    processVertexEarly(currVetex)
+    time += 1
+    entryTime[currVetex] = time
+
+    let childNode = targetGraph.edges[currVetex]
+    while (childNode !== null) {
+      const childVertex = childNode.vex
+      if (!processed[childVertex] || !targetGraph.directed) {
+        processeEdge(currVetex, childVertex)
+      }
+      if (!discovered[childVertex]) {
+        discovered[childVertex] = true
+        parent[childVertex] = currVetex
+        dfs(targetGraph, childVertex)
+      }
+      if (finished) return
+      childNode = childNode.next
+    }
+    processVertexLate(currVetex)
+    processed[currVetex] = true
+    time += 1
+    exitTime[currVetex] = true
+  }
+
+  function processeEdge(fromV, toV) {
+    console.log(`from ${fromV} to ${toV}`)
+  }
+
+  function processVertexEarly(vertex) {
+    console.log(`processing ${vertex} before its children`)
+  }
+
+  function processVertexLate(vertex) {
+    console.log(`processing ${vertex} after its children`)
+    stack.push(vertex)
   }
 }
 
-topologicalSort()
+console.log(topologicalSort(exampleGraph))
