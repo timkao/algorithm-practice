@@ -74,3 +74,39 @@ function moveBack(list, startNode, curNode, prevNode) {
       prevNode.next = curNode
   }
 }
+
+
+var getPermutationOpt = function(n, k) {
+  const candidates = []
+  for (let i = 1; i <= n; i++) {
+      candidates.push(i)
+  }
+  const factorialMap = generateMap(n)
+  return getResult(candidates, k, factorialMap).join('')
+};
+
+function getResult(arr, k, factorialMap, result = []) {
+  if (arr.length === 1) {
+      result.push(arr[0])
+      return result
+  }
+  const baseNum = factorialMap[arr.length - 1]
+  let target = 0
+  while (k > baseNum) {
+      target += 1
+      k -= baseNum
+  }
+  result.push(arr[target])
+  arr.splice(target, 1)
+  return getResult(arr, k, factorialMap, result)
+}
+
+function generateMap(num) {
+  const result = []
+  let base = 1
+  for (let i = 1; i <= num; i++) {
+      base *= i
+      result[i] = base
+  }
+  return result
+}
