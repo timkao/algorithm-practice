@@ -3,38 +3,19 @@
  * @return {number}
  */
 var numberOfArithmeticSlices = function(A) {
-  const globalCount = {count: 0}
-  checkSlices(A, 0, globalCount)
-  return globalCount.count
+    const diff = [A[1] - A[0], 2]
+    let ans = 0
+    for (let i = 2; i < A.length; i++) {
+        const curDiff = A[i] - A[i - 1]
+        if (curDiff === diff[0]) {
+            diff[1] += 1
+            if (diff[1] >= 3) {
+                ans += (diff[1] - 2)
+            }
+        } else {
+            diff[0] = curDiff
+            diff[1] = 2
+        }
+    }
+    return ans
 };
-
-function checkSlices(nums, start, result) {
-  if (nums.length - start < 3) return false
-  if (nums.length - start === 3) {
-      if (isValid(nums, start, nums.length - 1)) {
-          result.count += 1
-          return [start, start + 2]
-      }
-      return false
-  }
-  const closestSlice = checkSlices(nums, start + 1, result)
-  if (isValid(nums, start, start + 2)) {
-      if (closestSlice !== false) {
-          result.count += (closestSlice[1] - start - 1)
-          return [start, closestSlice[1]]
-      } else {
-          result.count += 1
-          return [start, start + 2]
-      }
-  }
-  return false
-}
-
-
-function isValid(arr, start, end) {
-let diff = arr[start + 1] - arr[start]
-for (var i = start + 1; i <= end; i++) {
-    if (arr[i] - arr[i -1] !== diff) return false
-}
-return true
-}
