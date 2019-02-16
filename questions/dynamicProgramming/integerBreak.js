@@ -28,3 +28,18 @@ var integerBreakDP = function(n) {
   }
   return dp[n]
 };
+
+
+var integerBreakRefac = function(n) {
+  if (n === 0) return 0
+  if (n === 1) return 0
+  if (n === 2) return 1
+  if (n === 3) return 2
+  const dp = [0, 1, 2, 3, 4]
+  for (let i = 5; i <= n; i++) {
+      let left = Math.floor(i / 2)
+      let right = i - left
+      dp[i] = Math.max(dp[left] * dp[right], dp[left - 1] * dp[right + 1])
+  }
+  return dp[n]
+};
