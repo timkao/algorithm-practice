@@ -3,25 +3,35 @@
  * @param {number[]} B
  * @return {number}
  */
-var findLengthOpt = function(A, B) {
-  var m = A.length;
-    var n = B.length;
-    if (m * n === 0) return 0;
-    var dp = [];
-    var max = 0;
-    for (var i = 0; i <= m; i++) {
-        dp.push(new Array(n + 1).fill(0));
+var findLengthOpt = function(arr1, arr2) {
+    var arr = [];
+    var n = arr1.length;
+    var m = arr2.length;
+    var maxLen = Number.MIN_SAFE_INTEGER;
+
+    for (var i = 0; i < n; i++) {
+        var newArr = new Array(m);
+        newArr.fill(0);
+        arr.push(newArr);
     }
 
-    for (var i = 1; i <= m; i++) {
-        for (var j = 1; j <= n; j++) {
-            dp[i][j] = A[i - 1] === B[j - 1] ? dp[i - 1][j - 1] + 1 : 0;
-            max = Math.max(max, dp[i][j]);
+    for (var i = 0; i < n; i++) {
+        for (var j = 0; j < m; j++) {
+            if (arr1[i] === arr2[j]) {
+                if (i == 0 || j == 0) {
+                    arr[i][j] = 1;
+                } else {
+                    arr[i][j] = arr[i-1][j-1] + 1;
+                }
+                maxLen = Math.max(maxLen, arr[i][j]);
+            } else {
+                arr[i][j] = 0;
+            }
         }
     }
-    return max;
-};
 
+    return maxLen === Number.MIN_SAFE_INTEGER ? 0 : maxLen;
+};
 var findLength = function(A, B) {
   const dp = []
   let globalMax = 0
