@@ -28,3 +28,15 @@ console.log(maxProfit([2, 1, 4]))
 console.log(memo)
 console.log(memo2)
 
+var maxProfitDp = function(prices) {
+  if (prices.length === 0) return 0
+  const buy = [-prices[0]]
+  const sell = [0]
+  const rest = [0]
+  for (let i = 1; i < prices.length; i++) {
+    buy[i] = Math.max(rest[i - 1] - prices[i], buy[i - 1])
+    sell[i] = Math.max(buy[i - 1] + prices[i], sell[i - 1])
+    rest[i] = Math.max(sell[i - 1], buy[i - 1], rest[i - 1])
+  }
+  return sell[prices.length - 1]
+};
