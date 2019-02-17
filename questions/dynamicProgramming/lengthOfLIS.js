@@ -35,3 +35,39 @@ function findLocalMax(dp, nums, idx) {
   }
   return result + max
 }
+
+var lengthOfLISBNY = function(nums) {
+  if (nums.length === 0) return 0
+  const dp = [nums[0]]
+  for (let i = 1; i < nums.length; i++) {
+      const curNum = nums[i]
+      if (curNum <= dp[0]) {
+          dp[0] = curNum
+      } else if (curNum > dp[dp.length - 1]) {
+          dp[dp.length] = curNum
+      } else {
+          binaryUpdate(dp, 0, dp.length - 1, curNum)
+      }
+  }
+  return dp.length
+};
+
+function binaryUpdate(arr, start, end, num) {
+if (start > end) return
+const mid = start + Math.floor((end - start) / 2)
+  if (arr[mid] === num) {
+    arr[mid + 1] = num
+  } else if (arr[mid] > num) {
+      if (arr[mid - 1] <= num) {
+        arr[mid] = num
+      } else {
+        binaryUpdate(arr, start, mid - 1, num)
+      }
+  } else {
+    if (arr[mid + 1] >= num) {
+      arr[mid + 1] = num
+    } else {
+       binaryUpdate(arr, mid + 1, end, num)
+    }
+  }
+}
