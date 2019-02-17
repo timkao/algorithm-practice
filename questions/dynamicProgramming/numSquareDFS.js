@@ -26,3 +26,25 @@ function findSquares(n) {
   }
   return result
 }
+
+
+var numSquaresRfc = function(n, memo = []) {
+  if (n === 0) return []
+  if (memo[n] !== undefined) return memo[n]
+  let base = 1
+  let result = null
+  while (base * base <= n) {
+      const curNum = base * base
+      const temp = [curNum].concat(numSquares(n - curNum, memo))
+      if (result === null) {
+        result = temp
+      } else {
+        if (result.length > temp.length) {
+          result = temp
+        }
+      }
+      base += 1
+  }
+  memo[n] = result
+  return result
+};
