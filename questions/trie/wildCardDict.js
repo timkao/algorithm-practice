@@ -1,9 +1,8 @@
 var MagicDictionary = function() {
-
+  this.trieArr = []
 };
 
 MagicDictionary.prototype.buildDict = function(dict) {
-    this.trieArr = []
     dict.forEach(word => {
         if (this.trieArr[word.length] === undefined) {
             this.trieArr[word.length] = {}
@@ -23,11 +22,11 @@ function addToTrie(trie, word, start = 0) {
 
 MagicDictionary.prototype.search = function(word) {
     const targetTrie = this.trieArr[word.length]
+    if (targetTrie === undefined) return false
     return isInTrie(targetTrie, word, 0, true)
 };
 
 function isInTrie(trie, word, start, wildCard) {
-    if (trie === undefined) return false
     if (start === word.length) {
         return trie['$'] !== undefined && !wildCard
     }
