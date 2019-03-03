@@ -21,5 +21,3 @@ var traversalWithStack = function(root) {
   }
   return result
 };
-
-
