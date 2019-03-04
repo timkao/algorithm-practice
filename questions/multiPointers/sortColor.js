@@ -12,7 +12,7 @@ var sortColors = function(nums) {
           mid += 1
       } else {
           swap(nums, mid, top)
-          top -= 1
+          top -= 1 // here we do not do mid += 1 since the element from top hasn't been examined
       }
   }
 };
