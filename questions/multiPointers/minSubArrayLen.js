@@ -25,3 +25,21 @@ var minSubArrayLen = function(s, nums) {
   }
   return result
 };
+
+var minSubArrayLenOpt = function(s, nums) {
+  let localAns = 0
+  let ans = Number.POSITIVE_INFINITY
+  let slow = 0
+  let sum = 0
+  for (let fast = 0; fast < nums.length; fast++) {
+      sum += nums[fast]
+      localAns += 1
+      while (sum >= s) {
+          ans = Math.min(ans, localAns)
+          sum -= nums[slow]
+          slow += 1
+          localAns -= 1
+      }
+  }
+  return ans === Number.POSITIVE_INFINITY ? 0 : ans
+};
