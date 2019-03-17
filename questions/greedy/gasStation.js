@@ -27,3 +27,21 @@ function isValid(arr, beginIdx) {
   }
   return true
 }
+
+var canCompleteCircuitOpt = function(gas, cost) {
+  let totalTank = 0
+  let curTank = 0
+  let startPt = 0
+  for (let i = 0; i < gas.length; i++) {
+      const diff = gas[i] - cost[i]
+      totalTank += diff
+      curTank += diff
+      if (curTank < 0) {
+          startPt = i + 1
+          curTank = 0
+      }
+  }
+  if (totalTank < 0) return -1
+  return startPt
+};
+
