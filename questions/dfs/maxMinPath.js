@@ -6,37 +6,28 @@
 */
 
 function findMaxMin(grid) {
-  //let result = Number.NEGATIVE_INFINITY;
-  const visited = []
+  let result = Number.NEGATIVE_INFINITY;
+  let min = Number.POSITIVE_INFINITY;
   const targetRow = grid.length - 1
   const targetCol = grid[0].length - 1
-  for (let i = 0; i < grid.length; i++) {
-    visited[i] = []
-  }
-  return dfs(grid, 0, 0, [grid[0][0]])
-  //return result
+  dfs(grid, 0, 0, min)
+  return result
 
-  function dfs(matrix, row, col, acc, result = []) {
+  function dfs(matrix, row, col, localMin) {
+    if (row > targetRow || col > targetCol) return
     if (row === targetRow && col === targetCol) {
-      result.push(acc.slice(0))
-      return result
+      localMin = Math.min(matrix[row][col], localMin)
+      result = Math.max(result, localMin)
+      return
     }
-    if (row + 1 <= targetRow) {
-      acc.push(matrix[row + 1][col])
-      dfs(matrix, row + 1, col, acc, result)
-      acc.pop()
-    }
-    if (col + 1 <= targetCol) {
-      acc.push(matrix[row][col + 1])
-      dfs(matrix, row, col + 1, acc, result)
-      acc.pop()
-    }
-    return result
+    localMin = Math.min(matrix[row][col], localMin)
+    dfs(matrix, row + 1, col, localMin)
+    dfs(matrix, row, col + 1, localMin)
   }
 }
 
 const example = [
-  [8, 4, 7],
+  [8, 6, 7],
   [6, 5, 9],
   [5, 6, 10]
 ]
