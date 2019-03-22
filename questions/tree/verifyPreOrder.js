@@ -2,12 +2,8 @@ var verifyPreorder = function(preorder) {
   let curRoot = preorder[1]
   for (let i = 2; i < preorder.length; i++) {
       const num = preorder[i]
-      if (num > curRoot) {
-          curRoot = num
-      } else {
-          if (!isValid(preorder, num, i - 2, curRoot)) return false
-          curRoot = num
-      }
+      if (num < curRoot && !isValid(preorder, num, i - 2, curRoot)) return false
+      curRoot = num
   }
   return true
 };
