@@ -71,7 +71,7 @@ var fourSumOpt = function(nums, target) {
   function findSum(arr, target, start) {
     const result = []
     let lo = start
-    let hi = arr.length -1
+    let hi = arr.length - 1
     while (lo < hi) {
       if (lo !== start && arr[lo] === arr[lo - 1]) {
         lo += 1
