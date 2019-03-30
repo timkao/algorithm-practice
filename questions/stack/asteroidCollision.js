@@ -33,3 +33,26 @@ function collide(arr, num) {
   }
   return true
 }
+
+
+var asteroidCollisionStack = function(asteroids) {
+  const stack = []
+  for (let i = 0; i < asteroids.length; i++) {
+      const num = asteroids[i]
+      if (num > 0) {
+          stack.push(num)
+      } else {
+          if (stack[stack.length - 1] < 0) {
+              stack.push(num)
+          } else {
+              while (stack[stack.length - 1] > 0 && stack[stack.length - 1] + num < 0) stack.pop()
+              if (stack.length === 0 || stack[stack.length - 1] < 0) {
+                  stack.push(num)
+              } else if (stack[stack.length - 1] + num === 0) {
+                  stack.pop()
+              }
+          }
+      }
+  }
+  return stack
+};
