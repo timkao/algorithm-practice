@@ -25,26 +25,25 @@ var kthSmallest = function(matrix, k) {
 
 
 var kthSmallestRecursive = function(matrix, k) {
-  // binary search, search range
   let lo = matrix[0][0]
   let hi = matrix[matrix.length - 1][matrix[0].length - 1]
-
-  return binarySearch(matrix, k , lo, hi)
-
-  function binarySearch(matrix, k, min, max) {
-      if (min > max) return min
-      const mid = min + Math.floor((max - min) / 2)
-      let count = 0
-      let col = matrix[0].length - 1
-      for (let row = 0; row < matrix.length; row++) {
-          while (col >= 0 && matrix[row][col] > mid) col -= 1
-          count += col + 1
-      }
-      if (count < k) {
-          min = mid + 1
-      } else {
-          max = mid - 1
-      }
-      return binarySearch(matrix, k, min, max)
-  }
+  return binarySearch(matrix, k, lo, hi)
 };
+
+// binary search, search range
+function binarySearch(matrix, k, min, max) {
+  if (min > max) return min
+  const mid = min + Math.floor((max - min) / 2)
+  let count = 0
+  let col = matrix[0].length - 1
+  for (let row = 0; row < matrix.length; row++) {
+      while (col >= 0 && matrix[row][col] > mid) col -= 1
+      count += col + 1
+  }
+  if (count < k) {
+      min = mid + 1
+  } else {
+      max = mid - 1
+  }
+  return binarySearch(matrix, k, min, max)
+}
