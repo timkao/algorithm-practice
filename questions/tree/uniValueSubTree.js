@@ -28,3 +28,33 @@ var countUnivalSubtrees = function(root) {
       return false
   }
 };
+
+var countUnivalSubtrees = function(root) {
+    if (root === null) return 0
+    let result = 0
+    isUni(root)
+    return result
+
+    function isUni(node) {
+        if (node === null) return true
+        const left = isUni(node.left)
+        const right = isUni(node.right)
+        if (left && right) {
+            if (isValid(node, node.left, node.right)) {
+                result += 1
+                return true
+            }
+            return false
+        } else {
+            return false
+        }
+    }
+
+    function isValid(node, leftNode, rightNode) {
+        if (leftNode === null && rightNode === null) return true
+        if (leftNode === null && rightNode.val === node.val) return true
+        if (rightNode === null && leftNode.val === node.val) return true
+        if (leftNode !== null && rightNode !== null && leftNode.val === node.val && rightNode.val === node.val) return true
+        return false
+    }
+};
