@@ -47,50 +47,55 @@ var fourSum = function(nums, target) {
 };
 
 
-var fourSumOpt = function(nums, target) {
-    nums.sort((a, b) => a - b)
-    return findKSums(nums, target, 4, 0)
-  };
+var fourSumRecursive = function(nums, target) {
+  nums.sort((a, b) => a - b)
+  return findKSums(nums, target, 4, 0)
+};
 
-  function findKSums(arr, target, k, start) {
-    if (k === 2) return findSum(arr, target, start)
-    const result = []
-    for (let i = start; i < arr.length; i++) {
+function findKSums(arr, target, k, start) {
+  if (k === 2) return findTwoSum(arr, target, start)
+  const result = []
+  for (let i = start; i <= arr.length - k; i++) {
+      const curNum = arr[i]
       if (i === start || arr[i] !== arr[i - 1]) {
-        const temp = findKSums(arr, target - arr[i], k - 1, i + 1)
-        if (temp.length > 0) {
-           temp.forEach(pair => {
-             result.push([arr[i], ...pair])
-           })
-        }
+          const temp = findKSums(arr, target - curNum, k - 1, i + 1)
+              if (temp.length > 0) {
+                  temp.forEach(pair => {
+                  result.push([...pair, curNum])
+              })
+          }
       }
-    }
-    return result
   }
+  return result
+}
 
-  function findSum(arr, target, start) {
-    const result = []
-    let lo = start
-    let hi = arr.length - 1
-    while (lo < hi) {
-      if (lo !== start && arr[lo] === arr[lo - 1]) {
-        lo += 1
-        continue
-      }
-      if (arr[hi] === arr[hi + 1]) {
-        hi -= 1
-        continue
-      }
+function findTwoSum(arr, target, start) {
+  const result = []
+  let lo = start
+  let hi = arr.length - 1
+  while (lo < hi) {
       const sum = arr[lo] + arr[hi]
       if (sum === target) {
-        result.push([arr[lo], arr[hi]])
-        lo += 1
-        hi -= 1
+          result.push([arr[lo], arr[hi]])
+          lo = moveLo(arr, lo)
+          hi = moveHi(arr, hi)
       } else if (sum < target) {
-        lo += 1
+          lo = moveLo(arr, lo)
       } else {
-        hi -= 1
+          hi = moveHi(arr, hi)
       }
-    }
-    return result
   }
+  return result
+}
+
+function moveLo(arr, start) {
+  let result = start + 1
+  while (arr[result] === arr[result - 1]) result += 1
+  return result
+}
+
+function moveHi(arr, start) {
+  let result = start - 1
+  while (arr[result] === arr[result + 1]) result -= 1
+  return result
+}
