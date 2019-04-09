@@ -43,3 +43,37 @@ var minSubArrayLenOpt = function(s, nums) {
   }
   return ans === Number.POSITIVE_INFINITY ? 0 : ans
 };
+
+var minSubArrayLenBinarySearch = function(s, nums) {
+  const sums = []
+  let localSum = 0
+  for (let i = 0; i < nums.length; i++) {
+      if (nums[i] >= s) return 1 // in the cases like: [1, 4, 4]
+      localSum += nums[i]
+      sums[i] = localSum
+  }
+  let result = Number.POSITIVE_INFINITY
+  for (let j = 0; j < sums.length; j++) {
+      const diff = j === 0 ? 0 : sums[j - 1]
+      const target = s + diff
+      const resLoc = binarySearch(sums, target, j + 1, sums.length - 1)
+      result = Math.min(result, resLoc - j + 1)
+  }
+  return result === Number.POSITIVE_INFINITY ? 0 : result
+};
+
+function binarySearch(arr, target, begin, end) {
+  if (begin >= end) {
+      if (arr[begin] === undefined || arr[begin] < target) return Number.POSITIVE_INFINITY
+      return begin
+  }
+  const mid = begin + Math.floor((end - begin) / 2)
+  const curNum = arr[mid]
+  if (curNum === target) {
+      return mid
+  } else if (curNum > target) {
+      return binarySearch(arr, target, begin, mid - 1)
+  } else {
+      return binarySearch(arr, target, mid + 1, end)
+  }
+}
