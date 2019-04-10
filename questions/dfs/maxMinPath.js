@@ -4,25 +4,23 @@
     [6, 5, 9]
   ]
 */
-
-function findMaxMin(grid) {
-  let result = Number.NEGATIVE_INFINITY;
-  let min = Number.POSITIVE_INFINITY;
-  const targetRow = grid.length - 1
-  const targetCol = grid[0].length - 1
-  dfs(grid, 0, 0, min)
+function findMaxMin(grid, start, target) {
+  const rows = grid.length
+  const cols = grid[0].length
+  let result = Number.NEGATIVE_INFINITY
+  traverseFind(grid, start[0], start[1])
   return result
 
-  function dfs(matrix, row, col, localMin) {
-    if (row > targetRow || col > targetCol) return
-    if (row === targetRow && col === targetCol) {
-      localMin = Math.min(matrix[row][col], localMin)
-      result = Math.max(result, localMin)
-      return
+  function traverseFind(matrix, row, col, localMin = Number.POSITIVE_INFINITY) {
+    if (row >= rows || col >= cols) return
+    if (row === target[0] && col === target[1]) {
+        localMin = Math.min(localMin, matrix[row][col])
+        result = Math.max(result, localMin)
+        return
     }
-    localMin = Math.min(matrix[row][col], localMin)
-    dfs(matrix, row + 1, col, localMin)
-    dfs(matrix, row, col + 1, localMin)
+    localMin = Math.min(localMin, matrix[row][col])
+    traverseFind(matrix, row + 1, col, localMin)
+    traverseFind(matrix, row, col + 1, localMin)
   }
 }
 
