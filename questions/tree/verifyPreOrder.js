@@ -15,3 +15,17 @@ function isValid(numArr, num, begin, parent) {
   }
   return true
 }
+
+var verifyPreorderOpt = function(preorder) {
+  let low = Number.MIN_SAFE_INTEGER;
+  let stack = [];
+  for(let i=0; i<preorder.length; i++){
+      let num = preorder[i];
+      if(num < low) return false; // should not go back to previous leftSubtree
+      while(stack.length > 0 && num > stack[stack.length - 1]){
+          low = stack.pop(); // figure out which leftSubtree to be under
+      }
+      stack.push(num);
+  };
+  return true;
+};
