@@ -46,3 +46,38 @@ var copyRandomListAlt = function(head) {
   return result;
 
 };
+
+var copyRandomListAlt2 = function(head) {
+  if (head === null) return null
+
+  // copy nodes and link them in the same list as the original one
+  let node = head
+  while (node !== null) {
+    const copy = new Node(node.val, null, null)
+    const tail = node.next
+    node.next = copy
+    copy.next = tail;  // assign correct next pointer
+    node = tail
+  }
+
+  // assgin random pointers
+  node = head
+  while (node !== null) {
+    if (node.random !== null) {
+      node.next.random = node.random.next // the copy version of node.random
+    }
+    node = node.next.next
+  }
+
+  // reset original list and extract copy list
+  const ans = head.next
+  let ansPt = ans
+  node = head
+  while (node !== null) {
+    node.next = node.next.next
+    ansPt.next = ansPt.next === null ? null : ansPt.next.next
+    node = node.next
+    ansPt = ansPt.next
+  }
+  return ans
+};
